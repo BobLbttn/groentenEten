@@ -42,7 +42,7 @@ class FiliaalController {
 	 return REDIRECT_URL_NA_TOEVOEGEN;
 	}
 	
-	@GetMapping(params = "{id}") 
+	@GetMapping("{id}") 
 	ModelAndView read(@PathVariable long id) { 
 		ModelAndView modelAndView = new ModelAndView(FILIAAL_VIEW);
 		filiaalService.read(id).ifPresent(filiaal -> modelAndView.addObject(filiaal)); 
