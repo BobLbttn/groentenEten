@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+
 import be.vdab.valueobjects.Adres;
 
 public class Filiaal implements Serializable {
@@ -11,7 +14,9 @@ public class Filiaal implements Serializable {
 	private long id;
 	private String naam;
 	private boolean hoofdFiliaal;
+	@NumberFormat(pattern="#,##0.00")
 	private BigDecimal waardeGebouw;
+	@DateTimeFormat(style="S-")
 	private LocalDate inGebruikName;
 	private Adres adres;
 	

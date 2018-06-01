@@ -7,7 +7,10 @@
 <v:head title='Filiaal ${param.naam} verwijderd'/>
 </head>
 <body>
-<v:menu/>
-<h1>Het filiaal ${param.naam} is verwijderd.</h1>
+	<v:menu/>
+	<h1>Het filiaal ${param.naam} is verwijderd.</h1>
+	<c:if test='${not empty param.fout}'>
+		<div class='ffout'>${param.fout}</div>
+	</c:if>
 </body>
 </html>
