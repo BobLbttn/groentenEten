@@ -12,7 +12,7 @@
 	<h1>Filialen</h1>
 	<c:forEach items='${filialen}' var='filiaal'>
 		<spring:url var='url' value='/filialen/{id}'>
- 			<c:param name='id' value='${filiaal.id}'/>
+ 			<spring:param name='id' value='${filiaal.id}'/>
 		</spring:url>
 		<h2><a href='${url}'>${filiaal.naam}</a></h2>
  		<p> ${filiaal.adres.straat} ${filiaal.adres.huisNr}<br>
