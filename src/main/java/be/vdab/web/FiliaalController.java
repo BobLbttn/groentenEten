@@ -8,8 +8,10 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 //import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 //import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,14 +51,17 @@ class FiliaalController {
 	}
 
 	@GetMapping("toevoegen")
-	String createForm() {
-		return TOEVOEGEN_VIEW;
+	ModelAndView createForm() {
+		return new ModelAndView(TOEVOEGEN_VIEW).addObject(new Filiaal());
 	}
 
-	@PostMapping 
-	String create() {
-	 LOGGER.info("filiaal record toevoegen aan database");
-	 return REDIRECT_URL_NA_TOEVOEGEN;
+	@PostMapping
+	String create(@Valid Filiaal filiaal, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return TOEVOEGEN_VIEW;
+		}
+		filiaalService.create(filiaal);
+		return REDIRECT_URL_NA_TOEVOEGEN;
 	}
 	
 	@GetMapping("{id}") 
@@ -109,8 +114,13 @@ class FiliaalController {
 		return modelAndView;
 	}
 	
-//	@InitBinder("postcodeReeks") 
-//	void initBinderPostcodeReeks(DataBinder dataBinder) { 
-//		dataBinder.setRequiredFields("vanpostcode", "totpostcode"); 
-//	}
+	@InitBinder("postcodeReeks") 
+	void initBinderPostcodeReeks(WebDataBinder binder) { 
+		binder.initDirectFieldAccess(); 
+	}
+	
+	@InitBinder("filiaal")
+	void initBinderFiliaal(WebDataBinder binder) {
+		binder.initDirectFieldAccess(); 
+	}
 }
