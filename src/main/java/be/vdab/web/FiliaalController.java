@@ -37,7 +37,6 @@ class FiliaalController {
 	private static final String VERWIJDERD_VIEW = "filialen/verwijderd";
 	private static final String PER_POSTCODE_VIEW = "filialen/perpostcode";
 	
-	private static final Logger LOGGER = Logger.getLogger(FiliaalController.class.getName());
 	private final FiliaalService filiaalService;
 	
 	
