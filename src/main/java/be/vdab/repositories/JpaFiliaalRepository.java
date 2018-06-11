@@ -18,7 +18,7 @@ import be.vdab.valueobjects.Adres;
 import be.vdab.valueobjects.PostcodeReeks;
 
 @Repository
-public class InMemoryFiliaalRepository implements FiliaalRepository {
+public class JpaFiliaalRepository implements FiliaalRepository {
 
 	private final JdbcTemplate jdbcTemplate;
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -38,7 +38,7 @@ public class InMemoryFiliaalRepository implements FiliaalRepository {
 	
 	private final SimpleJdbcInsert simpleJdbcInsert;
 	
-	InMemoryFiliaalRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+	JpaFiliaalRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 		simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate); 
@@ -101,11 +101,6 @@ public class InMemoryFiliaalRepository implements FiliaalRepository {
 		return jdbcTemplate.queryForObject(SQL_FIND_AANTAL_FILIALEN, Long.class);
 	}
 
-	@Override
-	public long findAantalWerknemers(long id) {
-		return jdbcTemplate.queryForObject(SQL_FIND_AANTAL_WERKNEMERS, Long.class, id);	
-	}
-	
 	@Override
 	public List<Filiaal> findByPostcodeReeks(PostcodeReeks reeks) {
 		Map<String, Object> parameters = new HashMap<>(); 

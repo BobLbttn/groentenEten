@@ -3,7 +3,14 @@ package be.vdab.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
@@ -18,8 +25,13 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import be.vdab.valueobjects.Adres;
 
+
+@Entity
+@Table(name="filialen")
 public class Filiaal implements Serializable {
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@NotBlank
 	@Length(min = 1, max = 50)
@@ -37,6 +49,8 @@ public class Filiaal implements Serializable {
 	@Valid
 	@SafeHtml
 	private Adres adres;
+	@OneToMany(mappedBy = "filiaal")
+	private Set<Werknemer> werknemers;
 	
 	public Filiaal() {}
 	public Filiaal(String naam, boolean hoofdFiliaal, BigDecimal waardeGebouw,
