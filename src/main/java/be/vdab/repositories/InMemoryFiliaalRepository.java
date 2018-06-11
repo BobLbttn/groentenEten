@@ -1,16 +1,10 @@
 package be.vdab.repositories;
 
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,7 +20,6 @@ import be.vdab.valueobjects.PostcodeReeks;
 @Repository
 public class InMemoryFiliaalRepository implements FiliaalRepository {
 
-	private final Map<Long, Filiaal> filialen = new ConcurrentHashMap<>();
 	private final JdbcTemplate jdbcTemplate;
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private static final String BEGIN_SQL =
