@@ -1,7 +1,6 @@
 package be.vdab.web;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -9,10 +8,8 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-//import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-//import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +36,9 @@ class FiliaalController {
 	private static final String WIJZIGEN_VIEW = "filialen/wijzigen";
 	private static final String REDIRECT_URL_NA_WIJZIGEN = "redirect:/filialen";
 	private static final String REDIRECT_URL_NA_LOCKING_EXCEPTION = "redirect:/filialen/{id}?optimisticlockingexception=true";
+	private static final String AFSCHRIJVEN_VIEW = "filialen/afschrijven";
+	private static final String REDIRECT_NA_AFSCHRIJVEN = "redirect:/";
+	
 	private final FiliaalService filiaalService;
 	
 	
@@ -142,6 +142,19 @@ class FiliaalController {
 		return modelAndView;
 	}
 	
+	@GetMapping("afschrijven")
+	ModelAndView afschrijvenForm() {
+		return new ModelAndView(AFSCHRIJVEN_VIEW, "filialen", filiaalService.findNietAfgeschreven()).addObject(new AfschrijvenForm());
+	}
+	
+	@PostMapping("afschrijven")
+	ModelAndView afschrijven(@Valid AfschrijvenForm afschrijvenForm, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) { 
+			return new ModelAndView(AFSCHRIJVEN_VIEW, "filialen", filiaalService.findNietAfgeschreven());
+		}
+		filiaalService.afschrijven(afschrijvenForm.getFiliaal());
+		return new ModelAndView(REDIRECT_NA_AFSCHRIJVEN);
+	}
 	@InitBinder("postcodeReeks") 
 	void initBinderPostcodeReeks(WebDataBinder binder) { 
 		binder.initDirectFieldAccess(); 

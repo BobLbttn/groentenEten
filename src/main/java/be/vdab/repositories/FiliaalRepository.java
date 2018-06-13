@@ -12,4 +12,5 @@ public interface FiliaalRepository extends JpaRepository<Filiaal, Long>{
 	List<Filiaal> findByAdresPostcodeBetweenOrderByNaam(int van, int tot);
 	List<Filiaal> findMetHoogsteWaardeGebouw(); 
 	BigDecimal findGemiddeldeWaardeGebouwInGemeente(@Param("gemeente") String gemeente);
+	List<Filiaal> findByWaardeGebouwNot(BigDecimal waarde);
 }
