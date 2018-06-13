@@ -12,6 +12,9 @@
 	<c:choose>
 		<c:when test="${not empty filiaal}">
 			<h1>${filiaal.naam}</h1>
+			<c:if test="${param.optimisticlockingexception}">
+				<div class="fout">Filiaal werd door andere gebruiker als volgt gewijzigd:</div>
+			</c:if>
 			<dl>
 				<dt>Straat</dt><dd>${filiaal.adres.straat}</dd>
 				<dt>Huisnr.</dt><dd>${filiaal.adres.huisNr}</dd>
@@ -27,6 +30,12 @@
 			</spring:url>
 			<form action='${verwijderURL}' method='post'>
 				<input type='submit' value='Verwijderen'>
+			</form>
+			<spring:url value='/filialen/{id}/wijzigen' var='wijzigURL'>
+				<spring:param name='id' value='${filiaal.id}'/>
+			</spring:url>
+			<form action='${wijzigURL}'>
+				<input type='submit' value='Wijzigen'>
 			</form>
 		</c:when>
 		<c:otherwise>

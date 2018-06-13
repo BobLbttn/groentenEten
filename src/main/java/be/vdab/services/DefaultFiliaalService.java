@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import be.vdab.entities.Filiaal;
-import be.vdab.exceptions.FiliaalHeeftNogWerknemersException;
 import be.vdab.repositories.FiliaalRepository;
 import be.vdab.valueobjects.PostcodeReeks;
 
@@ -39,9 +38,6 @@ public class DefaultFiliaalService implements FiliaalService {
 	@Override
 	@ModifyingTransactionalServiceMethod
 	public void delete(long id) {
-		if (filiaalRepository.findAantalWerknemers(id) != 0) {
-			 throw new FiliaalHeeftNogWerknemersException();
-		}
 		filiaalRepository.delete(id);
 	}
 

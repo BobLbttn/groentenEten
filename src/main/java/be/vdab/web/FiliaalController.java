@@ -2,10 +2,10 @@ package be.vdab.web;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -36,7 +36,9 @@ class FiliaalController {
 	private static final String REDIRECT_URL_HEEFT_NOG_WERKNEMERS ="redirect:/filialen/{id}";
 	private static final String VERWIJDERD_VIEW = "filialen/verwijderd";
 	private static final String PER_POSTCODE_VIEW = "filialen/perpostcode";
-	
+	private static final String WIJZIGEN_VIEW = "filialen/wijzigen";
+	private static final String REDIRECT_URL_NA_WIJZIGEN = "redirect:/filialen";
+	private static final String REDIRECT_URL_NA_LOCKING_EXCEPTION = "redirect:/filialen/{id}?optimisticlockingexception=true";
 	private final FiliaalService filiaalService;
 	
 	
@@ -54,6 +56,15 @@ class FiliaalController {
 		return new ModelAndView(TOEVOEGEN_VIEW).addObject(new Filiaal());
 	}
 
+	@GetMapping("{id}/wijzigen")
+	ModelAndView updateForm(@PathVariable long id) {
+		Optional<Filiaal> optionalFiliaal = filiaalService.read(id);
+		if (! optionalFiliaal.isPresent()) {
+			return new ModelAndView(REDIRECT_URL_FILIAAL_NIET_GEVONDEN);
+		}
+		return new ModelAndView(WIJZIGEN_VIEW).addObject(optionalFiliaal.get());
+	}
+	
 	@PostMapping
 	String create(@Valid Filiaal filiaal, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -85,6 +96,21 @@ class FiliaalController {
 			return REDIRECT_URL_HEEFT_NOG_WERKNEMERS;
 		}
 	}
+	
+	@PostMapping("{id}/wijzigen")
+	String update(@Valid Filiaal filiaal, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return WIJZIGEN_VIEW;
+		}
+		try {
+			filiaalService.update(filiaal);
+			return REDIRECT_URL_NA_WIJZIGEN;
+		} 
+		catch (ObjectOptimisticLockingFailureException ex) {
+			return REDIRECT_URL_NA_LOCKING_EXCEPTION;
+		}
+	}
+	
 	@GetMapping("{id}/verwijderd")
 	String deleted() {
 		return VERWIJDERD_VIEW;
