@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import be.vdab.datasource.DataSourceConfig;
 import be.vdab.repositories.RepositoriesConfig;
 import be.vdab.services.ServiceConfig;
+import be.vdab.restservices.*;
 
 // enkele imports
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -21,7 +22,7 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 		return new Class<?>[] { DataSourceConfig.class, RepositoriesConfig.class, ServiceConfig.class };	}
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] { ControllersConfig.class };
+		return new Class<?>[] { ControllersConfig.class, RestControllerConfig.class };
 	}
 	@Override
 	protected Filter[] getServletFilters() {

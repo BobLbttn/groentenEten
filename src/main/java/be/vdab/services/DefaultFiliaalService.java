@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import be.vdab.entities.Filiaal;
+import be.vdab.exceptions.FiliaalHeeftNogWerknemersException;
 import be.vdab.repositories.FiliaalRepository;
 import be.vdab.valueobjects.PostcodeReeks;
 
@@ -40,7 +41,13 @@ public class DefaultFiliaalService implements FiliaalService {
 	@Override
 	@ModifyingTransactionalServiceMethod
 	public void delete(long id) {
-		filiaalRepository.delete(id);
+		Optional<Filiaal> optionalFiliaal = read(id);
+		if (optionalFiliaal.isPresent()) {
+			if ( ! optionalFiliaal.get().getWerknemers().isEmpty()) {
+				throw new FiliaalHeeftNogWerknemersException();
+			}
+			filiaalRepository.delete(id);
+		}	
 	}
 
 	@Override

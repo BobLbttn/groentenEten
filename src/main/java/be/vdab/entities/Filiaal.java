@@ -16,6 +16,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,11 +29,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import be.vdab.valueobjects.Adres;
+import be.vdab.restservices.*;
 
 
 @Entity
 @Table(name="filialen")
+@XmlRootElement
+//@XmlAccessorType(XmlAccessType.FIELD)
 public class Filiaal implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -50,6 +60,8 @@ public class Filiaal implements Serializable {
 	@Valid
 	private Adres adres;
 	@OneToMany(mappedBy = "filiaal")
+	@XmlTransient
+	@JsonIgnore
 	private Set<Werknemer> werknemers;
 	@Version
 	private long versie;
@@ -101,6 +113,7 @@ public class Filiaal implements Serializable {
 		this.waardeGebouw = waardeGebouw;
 	}
 
+	@XmlJavaTypeAdapter(value = LocalDateAdapter.class)
 	public LocalDate getInGebruikName() {
 		return inGebruikName;
 	}
@@ -122,6 +135,15 @@ public class Filiaal implements Serializable {
 	public void setVersie(long versie) {
 		this.versie = versie;
 	}
+	
+	public Set<Werknemer> getWerknemers() {
+		return werknemers;
+	}
+
+	public void setWerknemers(Set<Werknemer> werknemers) {
+		this.werknemers = werknemers;
+	}
+
 	public void afschrijven() {
 		this.waardeGebouw = BigDecimal.ZERO;
 	}

@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "werknemers")
@@ -26,6 +27,7 @@ public class Werknemer implements Serializable {
 	private String familienaam;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "filiaalId")
+	@XmlTransient
 	private Filiaal filiaal;
 	private BigDecimal wedde;
 	private long rijksregisterNr;
