@@ -31,8 +31,8 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import be.vdab.restservices.LocalDateAdapter;
 import be.vdab.valueobjects.Adres;
-import be.vdab.restservices.*;
 
 
 @Entity
@@ -114,8 +114,8 @@ public class Filiaal implements Serializable {
 		this.waardeGebouw = waardeGebouw;
 	}
 
-	@XmlJavaTypeAdapter(value = LocalDateAdapter.class)
-	public LocalDate getInGebruikName() {
+	 @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+	 public LocalDate getInGebruikName() {
 		return inGebruikName;
 	}
 
