@@ -16,8 +16,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAccessType;
+//import javax.xml.bind.annotation.XmlAccessorType;
+//import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -63,8 +63,9 @@ public class Filiaal implements Serializable {
 	@XmlTransient
 	@JsonIgnore
 	private Set<Werknemer> werknemers;
+	
 	@Version
-	private long versie;
+	int versie;
 	
 	public Filiaal() {}
 	public Filiaal(String naam, boolean hoofdFiliaal, BigDecimal waardeGebouw,
@@ -129,12 +130,6 @@ public class Filiaal implements Serializable {
 	public void setAdres(Adres adres) {
 		this.adres = adres;
 	}
-	public long getVersie() {
-		return versie;
-	}
-	public void setVersie(long versie) {
-		this.versie = versie;
-	}
 	
 	public Set<Werknemer> getWerknemers() {
 		return werknemers;
@@ -142,6 +137,13 @@ public class Filiaal implements Serializable {
 
 	public void setWerknemers(Set<Werknemer> werknemers) {
 		this.werknemers = werknemers;
+	}
+
+	public int getVersie() {
+		return versie;
+	}
+	public void setVersie(int versie) {
+		this.versie = versie;
 	}
 
 	public void afschrijven() {
