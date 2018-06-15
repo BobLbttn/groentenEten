@@ -3,6 +3,7 @@ package be.vdab.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -63,9 +64,8 @@ public class Filiaal implements Serializable {
 	@XmlTransient
 	@JsonIgnore
 	private Set<Werknemer> werknemers;
-	
 	@Version
-	int versie;
+	private long versie;
 	
 	public Filiaal() {}
 	public Filiaal(String naam, boolean hoofdFiliaal, BigDecimal waardeGebouw,
@@ -130,21 +130,17 @@ public class Filiaal implements Serializable {
 	public void setAdres(Adres adres) {
 		this.adres = adres;
 	}
-	
-	public Set<Werknemer> getWerknemers() {
-		return werknemers;
-	}
-
-	public void setWerknemers(Set<Werknemer> werknemers) {
-		this.werknemers = werknemers;
-	}
-
-	public int getVersie() {
+	public long getVersie() {
 		return versie;
 	}
-	public void setVersie(int versie) {
+	public void setVersie(long versie) {
 		this.versie = versie;
 	}
+
+	public Set<Werknemer> getWerknemers() {
+		return Collections.unmodifiableSet(werknemers);
+	}
+
 
 	public void afschrijven() {
 		this.waardeGebouw = BigDecimal.ZERO;
