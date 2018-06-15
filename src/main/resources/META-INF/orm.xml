@@ -7,12 +7,12 @@
 
 	<named-query name='Filiaal.findMetHoogsteWaardeGebouw'>
 		<query>
-			select f from Filiaal f where f.waardeGebouw=(select max(waardeGebouw) from Filiaal)
+			select f from Filiaal f where f.waardeGebouw=(select max(g.waardeGebouw) from Filiaal g)
 		</query>
 	</named-query>
 	<named-query name='Filiaal.findGemiddeldeWaardeGebouwInGemeente'>
 		<query>
-			select avg(waardeGebouw) from Filiaal f where f.adres.gemeente = :gemeente
+			select avg(f.waardeGebouw) from Filiaal f where f.adres.gemeente = :gemeente
 	</query>
 	</named-query>	
 
