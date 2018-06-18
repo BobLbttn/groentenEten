@@ -8,9 +8,9 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import be.vdab.datasource.DataSourceConfig;
 import be.vdab.repositories.RepositoriesConfig;
-import be.vdab.restservices.RestControllerConfig;
-import be.vdab.services.ServiceConfig;
+import be.vdab.restclients.RestClientConfig;
 import be.vdab.restservices.*;
+import be.vdab.services.ServiceConfig;
 
 // enkele imports
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -20,7 +20,8 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 	}
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[] { DataSourceConfig.class, RepositoriesConfig.class, ServiceConfig.class };	}
+		return new Class<?>[] { DataSourceConfig.class, RepositoriesConfig.class, ServiceConfig.class,  RestClientConfig.class };	
+	}
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		return new Class<?>[] { ControllersConfig.class, RestControllerConfig.class };
